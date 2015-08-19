@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<div class="container" style="padding-top:30px">
+
+    <h1>The first layer division</h1>
+
+    <div><h2>The second layer division 1</h2></div>
+
+    <div id="results">
+
+        <h2>The second layer divison 2</h2>
+
+
+        <div class="issue-template">
+
+            <h3>The third layer division</h3>
+
+            <h3>Issue Title - Begin 10 minutes ago</h3> <!-- If status === Unresolved -->
+
+
+
+            document.getElementById("result").innerHTML =
+
+            <h3>Issue Title - Resolved 10 minutes ago</h3> <!-- If status === Resolved -->
+
+            <p>Issue description</p>
+
+            <div style="padding-left:50px">
+
+                <h4>The fourth layer division 1</h4>
+                <p>Updates:</p>
+                <!-- Each update should be rendered with the following template -->
+
+                <div class="update-template">
+                    <h4>The fifth layer division</h4>
+                    <p>Update</p>
+                    <em>By Mat 10 minutes ago</em>
+                    <hr style="width:50%"/>
+                </div>
+
+            </div>
+            <hr />
+        </div>
+
+
+        <!-- Render this if there are no issues returned -->
+        <div class="no-issues-template">
+            <h3>The third layer division 2</h3>
+            Everybody is happy!
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+</body>
+</html>

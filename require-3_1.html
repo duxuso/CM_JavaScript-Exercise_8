@@ -1,0 +1,171 @@
+<html>
+    <head>
+        <title>CM JS dev, requirement 8</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/css.css" rel="stylesheet">
+
+        <script src="jquery-1.4.2.min.js"></script>
+        <script src="prettyprint.js"></script>
+        <script type="text/javascript" src="test.jsonp"></script>
+
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#spinner").bind("ajaxSend", function() {
+                    $(this).show();
+                }).bind("ajaxStop", function() {
+                    $(this).hide();
+                }).bind("ajaxError", function() {
+                    $(this).hide();
+                });
+
+            });
+        </script>
+
+        <script>
+            $(document).ready(function(){
+                $('#alert-success').slideUp('slow').fadeOut(function() {
+                    window.location.reload();
+                    /* or window.location = window.location.href; */
+                });
+            }, 5000);
+
+        </script>
+
+        <script>
+            $(document).ready(function(){
+                $("a").click(function(){
+
+//                    $(".loading").show();
+                    $('#spinner').show();
+
+                    var url = 'test.jsonp'; // for jsonp test
+                    var url1 = 'http://status.campaignmonitor.com/api/issues/current';
+
+                    $.ajax({
+                        type: 'GET',
+                        async: false,
+                        url: url1,
+                        jsonpCallback: 'cb',
+                        contentType: "application/json",
+                        dataType: 'jsonp',
+
+                        success: function(result){
+
+                            var flag = false;
+
+                            if($.isEmptyObject(result) == true){
+
+                                document.getElementById("results").style.display = "block";
+
+                            }
+
+                            else {
+
+                                var total = "";
+                                var length = result.length;
+                                //alert (length);
+
+                                for (var i = 0; i < length; i++)
+                                {
+                                    var status = result[i].status;
+
+                                    var title = result[i].title;
+
+                                    var begin = result[i].beganAt;
+
+                                    var end = result[i].resolvedAt;
+
+                                    var des = result[i].description;
+
+                                    var update = result[i].updates;
+
+                                    var sum = "";
+                                    var len = update.length;
+
+                                    for(var j=0;j<len;j++)
+                                    {
+                                        var by = update[j].by;
+
+                                        var at = update[j].at;
+
+                                        var up = update[j].update;
+
+                                        var to = "<div class=\"update-template\"><p>"+up+"</p><em>By "+by+" "+at+"</em><hr style=\"width:50%\"/></div>";
+
+                                        sum += to;
+
+                                    }
+
+                                    var tem = "<h3>"+title+" - Begin "+begin+"</h3>"+"<h3>"+title+" - Resolved "+end+"</h3>"
+                                            +"<p>"+des+"</p><div style=\"padding-left:50px\"><p>Updates:</p>"+sum+"</div><hr/>";
+
+                                    total += tem;
+
+                                }
+
+                                $(".issue-template").html(total);
+
+                                document.getElementById("results").style.display = "block";
+
+                                document.getElementById("d").style.display = "none";
+
+                            }
+
+                        },
+
+                        error:function( ){
+
+                            alert("Something happens");
+                            document.getElementById("results").style.display = "none";
+
+                        }
+
+                    });
+                });
+            });
+        </script>
+
+
+
+    </head>
+    <body>
+    <header>
+    <div id="spinner" class="spinner" style="display:none;">
+        <img id="img-spinner" src="img/spinner.gif" alt="Loading"/>
+    </div>
+        </header>
+        <div class="container" style="padding-top:30px">
+            <div>
+                <p><a href="#">Load the current issues list</a></p>
+            </div>
+            <div id="results" style="display:none">
+                <!-- Each issue should be rendered with the following template -->
+                <div class="issue-template">
+                    <h3>Issue Title - Begin 10 minutes ago</h3> <!-- If status === Unresolved -->
+
+                    <h3>Issue Title - Resolved 10 minutes ago</h3> <!-- If status === Resolved -->
+
+                    <p>Issue description</p>
+                    <div style="padding-left:50px">
+                        <p>Updates:</p>
+                        <!-- Each update should be rendered with the following template -->
+
+                        <div class="update-template">                    
+                            <p>Update</p>
+
+                            <em>By Mat 10 minutes ago</em>
+
+                            <hr style="width:50%"/>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                <!-- Render this if there are no issues returned -->
+                <div class="no-issues-template" id="d">
+                    Everybody is happy!
+                </div>
+            </div>
+        </div>
+    </body> 
+</html>

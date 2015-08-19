@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.4.2.min.js"></script>
+    <script src="prettyprint.js"></script>
+    <script type="text/javascript" src="test.jsonp"></script>
+    <script>
+
+/*
+
+        (function($) {
+            var url = 'test.jsonp';
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                async: false,
+                jsonpCallback: 'jsonCallback',
+            contentType: "application/json",
+                    dataType: 'jsonp',
+                    success: function(json) {
+                console.dir(json.sites);
+            },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });
+
+        })(jQuery);
+
+*/
+
+        $(document).ready(function(){
+            $("button").click(function(){
+
+                 var url = 'test.jsonp';
+
+                $.ajax({
+
+                    type: 'GET',
+
+                    async: false,
+
+                    url: url,
+
+                    jsonpCallback: 'cb',
+
+                    contentType: "application/json",
+
+                    dataType: 'jsonp',
+
+                    success: function(result){
+// the first result
+
+                        document.getElementById("json").innerHTML=JSON.stringify(result,undefined,2);
+
+                        var table = prettyPrint(result);
+                        document.body.appendChild(table);
+
+                        $("#div1").html(result[0].description);
+
+                    },
+
+                    error:function(e){
+
+                        console.log(e.message);
+
+                    }
+
+                });
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+/*        $(document).ready(function() {
+
+            $("button").click(function() {
+
+                $.ajax({
+
+                    url: 'test.jsonp',
+
+                    data: {
+                        format: 'json'
+                    },
+
+                    error: function () {
+
+                        alert("error");
+
+                        */
+                        //$('#info').html('<p>An error has occurred</p>');
+ /*                   },
+
+                    dataType: 'jsonp',
+
+                    success: function (data) {
+
+                        $("#div1").html(data);
+
+                        alert(data.description[0]);
+
+                        alert(data.updates[0].id);
+*/
+                        //var $title = $('<h1>').text(data.updates[0].id);
+                        //var $description = $('<p>').text(data.description[0]);
+                        // $('#info')
+                        //         .append($title)
+                        //         .append($description);
+
+
+                        //alert($title);
+                        //alert($description);
+/*
+                    },
+
+                    type: 'GET'
+
+                });
+
+            });
+
+        });
+
+
+
+*/
+
+/*
+        $.ajax({
+            // type : "GET",
+            // async: false,
+
+            url : "test.jsonp",
+
+         //   data:{
+         //       format:'json'
+         //   },
+
+            dataType : "jsonp",    // 数据格式指定为jsonp
+            // jsonp: "callback",     // 服务点通过这个键值获取回调方法
+            // jsonpCallback:"cb",   // 指定回调方法
+
+            success: function (data) {
+
+                // $('#result').html(data.id[0]);
+
+                alert(data.id[0]);
+
+                alert(data.updates[0].id);
+
+//                var json = JSON.parse(data);
+
+                var json = $.parseJSON(data);
+
+                alert(json);
+
+                $('re').html(json.id[0]);
+
+                // document.getElementById("re").innerHTML=json.id[0].id[0];
+
+
+                //document.getElementById("result").innerHTML=data.users[0].firstName + " " + data.users[0].lastName+" "+ data.users[0].joined;
+
+
+
+
+            },
+            error: function(){
+                alert('fail');
+            }
+
+
+
+        });
+
+        // var cb = function (data) {
+
+        //    alert(data.result);
+
+        //    console.log(data);
+
+        //}
+
+*/
+    </script>
+
+
+
+
+
+
+</head>
+<body>
+<h1>The first layer division</h1>
+<p></p>
+
+<pre id="json"></pre>
+
+<div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+
+<button>Get External Content</button>
+<div id="result">
+<table width="100px" border="1"><tr><td>
+    <h2 id="re"></h2>
+</td></tr></table>
+
+</div>
+
+</body>
+</html>

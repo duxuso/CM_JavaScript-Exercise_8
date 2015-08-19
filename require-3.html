@@ -1,0 +1,184 @@
+<html>
+    <head>
+        <title>CM JS dev, requirement 8</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+        <script src="jquery-1.4.2.min.js"></script>
+        <script src="prettyprint.js"></script>
+        <script type="text/javascript" src="test.jsonp"></script>
+
+        <script>
+            $(document).ready(function(){
+                $("a").click(function(){
+
+                    var url = 'test.jsonp';
+
+                    $.ajax({
+                        type: 'GET',
+                        async: false,
+                        url: url,
+                        jsonpCallback: 'cb',
+                        contentType: "application/json",
+                        dataType: 'jsonp',
+
+                        success: function(result){
+
+                            var flag = false;
+
+
+                            $.each(result,function(key,value){
+
+                                $.each(value,function(k,v){
+
+                                    if(value.status == "Resolved") {
+
+                                        var title = value.title;
+                                        var begin = value.beganAt;
+                                        var end = value.resolvedAt;
+                                        var des = value.description;
+
+                                        var temp1 = "<h3>"+title+" - Begin at "+begin+"</h3>";
+                                        var temp2 = "<h3>"+title+" - Resolved at "+end+"</h3>";
+                                        var temp3 = "<p>"+des+"</p>";
+
+                                        $(".issue-template > h3:first-child").append(temp1);
+
+
+                                        $(".issue-template > h3:nth-child(2)").append(temp2);
+
+
+                                        $(".issue-template > p:nth-child(3)").append(temp3);
+
+
+                                        var updates = value.updates;
+
+
+                                        $.each(updates,function(k,v){
+
+                                            $(".update-template > p:first-child").append(v.update+"<br/>");
+
+                                            $(".update-template > em:nth-child(2)").append("By "+v.by+" at "+ v.at+"<br/>");
+
+                                        });
+
+                                        return flag;
+
+
+                                    }
+                                    else
+                                        alert("unresolved");
+
+                                });
+
+
+
+                            });
+/*
+                            for (var obj in result)
+                            {
+                                document.write("<hr />");
+                                document.write("["+obj+"]" + ":" +result[obj]+ "<br />");
+                                document.write("<hr />");
+
+                                var res = result[obj];
+
+                                for (var ob in res)
+                                {
+                                    document.write("["+ob+"]" + ":" + result[obj][ob]+"<br/>");
+
+                                    document.write();
+
+                                    if(ob === 'updates')
+                                    {
+
+                                        for (var o in result[obj]["updates"])
+                                        {
+                                            document.write("<hr />");
+                                            document.write("["+o+"]" + ":" + result[obj]["updates"][o]+"<br/>");
+
+                                            for (var k in result[obj]["updates"][o])
+                                            {
+
+                                                document.write("["+k+"]" + ":" + result[obj]["updates"][o][k]+"<br/>");
+
+                                                document.write("<img src=\""+result[obj]["updates"][o]["avatar"]+"\">" );
+
+
+                                            }
+
+
+                                        }
+
+                                    }
+
+
+                                }
+
+
+                            }
+
+
+*/
+
+
+                             document.getElementById("results").style.display = "block";
+
+                            // document.getElementById("json").innerHTML=JSON.stringify(result,undefined,2);
+                            // var table = prettyPrint(result);
+                            // document.body.appendChild(table);
+                            // $("#div1").html(result[0].description);
+
+
+                            // class="container"  $(".container > a:first-child").text();
+
+                                // class="issue-template"
+
+                            //$(".issue-template > h3:first-child").text();
+                        },
+
+                        error:function( ){
+                            $('#no-issues-template').text('An error occurred');
+                            // console.log(e.message);
+                        }
+
+                    });
+                });
+            });
+        </script>
+
+    </head>
+    <body>
+        <div class="container" style="padding-top:30px">
+            <div>
+                <p><a href="#">Load the current issues list</a></p>
+            </div>
+            <div id="results" style="display:none">
+                <!-- Each issue should be rendered with the following template -->
+                <div class="issue-template">
+                    <h3>Issue Title - Begin 10 minutes ago</h3> <!-- If status === Unresolved -->
+
+                    <h3>Issue Title - Resolved 10 minutes ago</h3> <!-- If status === Resolved -->
+
+                    <p>Issue description</p>
+                    <div style="padding-left:50px">
+                        <p>Updates:</p>
+                        <!-- Each update should be rendered with the following template -->
+
+                        <div class="update-template">                    
+                            <p>Update</p>
+
+                            <em>By Mat 10 minutes ago</em>
+
+                            <hr style="width:50%"/>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                <!-- Render this if there are no issues returned -->
+                <div class="no-issues-template">
+                    Everybody is happy!
+                </div>
+            </div>
+        </div>
+    </body> 
+</html>
